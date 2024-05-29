@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <style type="text/css">
+        .item {
+            width: 150px;
+            height: 150px;
+            background-size:100%;
+            background-repeat: no-repeat;
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            height: 200px;
+            width: 1450px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .active{
+            border: 3px solid orange
+        }
+        .btn{
+            height: 75px;
+            width: 125px;
+            background: orange;
+            color: black;
+            border: 3px solid blue
+        }
+        .fon{
+            position: absolute;
+            width: 1498px;
+            height: 750px;
+            background-image: url(pokemin_fon.jpg);
+            background-size:100% 100%;
+            left: -10px;
+            top: 0px
+        }
+        .score{
+            width: 250px;
+            height: 50px;
+            background: orange;
+            position: absolute;
+            top: 50px; left: 620px;
+            display: block;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="fon">
+        <button class="btn">Начать</button>
+        <div class="score">Попыток:<span class="scoore"></span></div>
+        <div class="row">
+    </div>
+    </div>
+    <script type="text/javascript">
+    //див-родитель
+    let row = document.querySelector(".row");
+    let btn = document.querySelector(".btn")
+
+    //хранение картинок
+    let images = ["1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png", "10.png", "11.png", "12.png", "1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png", "10.png", "11.png", "12.png"];
+
+    let past_item = null
+
+    let random = function(num){
+        let rand = Math.random() * num 
+        let round = Math.round(rand) 
+
+        return round
+    }
+
+
+    for(let i = 0; i < 24; i++){
+        let scoore = 10
+        let item = document.createElement('div')
+        row.appendChild(item)
+        item.classList.add("item")
+
+        let itemRandom = random(images.length - 1)
+
+        item.style.backgroundImage = "url(" + images[itemRandom] + ")"
+
+        item.images = images[itemRandom]
+
+        images.splice(itemRandom, 1)
+
+        let tps = function(){
+            item.style.backgroundColor = "green"
+            item.style.backgroundSize = "0%"
+        }
+
+        item.onclick = function(){
+            item.classList.add("active")
+            item.style.backgroundColor = "transparent"
+            item.style.backgroundSize = "100%"
+
+
+            if(past_item == null){
+                past_item = item
+            }   else if(item.images == past_item.images){
+                item.style.opacity = "0"
+                past_item.style.opacity = "0"
+                past_item = null
+            }   else if(item.images != past_item.images){
+                past_item.classList.remove("active")
+                item.classList.remove("active")
+
+                past_item.style.backgroundSize = "0%"
+                past_item.style.backgroundColor = "green"
+
+                setTimeout(tps, 500)
+                past_item = null
+            }
+        }
+
+        let it = document.querySelectorAll(".item")
+
+        let timer = function(){
+            alert("you loose")
+        }
+
+        btn.onclick = function(){
+                for(let i = 0; i < it.length;i++){
+                it[i].style.backgroundColor = "green"
+                it[i].style.backgroundSize = "0%"
+                setTimeout(timer, 32000)
+            }
+        }
+    }
+    </script>
+</body>
+</html>
